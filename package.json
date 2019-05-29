@@ -94,5 +94,8 @@
     "property-expr": "^1.5.0",
     "synchronous-promise": "^2.0.6",
     "toposort": "^2.0.2"
+  },
+  "resolutions": {
+    "brotli-size": "0.1.0"
   }
 }

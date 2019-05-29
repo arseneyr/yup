@@ -39,7 +39,8 @@ node_modules
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -73,6 +74,3 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
-
-# Ignore build files
-lib/
