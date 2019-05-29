@@ -11,6 +11,7 @@ import createValidation from './util/createValidation';
 import printValue from './util/printValue';
 import Ref from './Reference';
 import { getIn } from './util/reach';
+import { SynchronousPromise } from 'synchronous-promise';
 
 class RefSet {
   constructor() {
@@ -220,16 +221,6 @@ const proto = (SchemaType.prototype = {
   },
 
   _validate(_value, options = {}) {
-    if (this._sequence) {
-      return this._sequence.reduce(
-        (promise, schema) =>
-          promise.then(result =>
-            schema._validate(_value, options).then([].concat.bind(result)),
-          ),
-        Promise.resolve([]),
-      );
-    }
-
     let value = _value;
     let originalValue =
       options.originalValue != null ? options.originalValue : _value;
@@ -240,6 +231,16 @@ const proto = (SchemaType.prototype = {
     let sync = options.sync;
     let path = options.path;
     let label = this._label;
+
+    if (this._sequence) {
+      return this._sequence.reduce(
+        (promise, schema) =>
+          promise.then(result =>
+            schema._validate(_value, options).then([].concat.bind(result)),
+          ),
+        sync ? SynchronousPromise.resolve([]) : Promise.resolve([]),
+      );
+    }
 
     if (!isStrict) {
       value = this._cast(value, { assert: false, ...options });
