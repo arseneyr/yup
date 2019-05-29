@@ -88,7 +88,7 @@ export interface Schema<T> {
   ): this;
   test(options: TestOptions): this;
   transform(fn: TransformFunction<this>): this;
-  sequence(fn: (this) => Schema<T>[]): this;
+  sequence(fn: (x: this) => Schema<T>[]): this;
 }
 
 export interface MixedSchemaConstructor {
